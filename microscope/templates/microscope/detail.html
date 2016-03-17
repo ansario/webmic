@@ -1,0 +1,290 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" ></script>
+  <script type="text/javascript" src="https://cdn.rawgit.com/kentor/jquery-draggable-background/master/draggable_background.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <style>
+    body {
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+    .marker{
+      /*margin-top: 100px;*/
+      background-position: 0 0;
+      /*position: absolute;*/
+      z-index: 2;
+      width: 150px;
+      height: 150px;
+      background-color: yellow;
+      opacity: 0.4;
+      border-radius: 100px;
+
+    }
+    .map {
+      /*position: absolute;*/
+      /*margin-top: 25px;*/
+      background-image: url({{slide.slide_image}});
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 200px;
+      height: 200px;
+      background-color: white;
+      z-index: 1;
+      margin: 10px;
+    }
+
+    .bg-img {
+      /*position:absolute;*/
+      z-index: 1;
+      background-image: url({{slide.slide_image}});
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      background-color: white;
+      background-size: 250px 250px;
+      border-radius: 1000px;
+      border: 1px solid #aaa;
+      width: 250px;
+      height: 250px;
+      margin: 10px;
+
+      /*margin: 25px auto;*/
+
+    }
+    .grid {
+      /*position: absolute;*/
+      width: 250px;
+      height: 250px;
+      z-index: 2;
+      background-color: transparent;
+      background-image:repeating-linear-gradient(0deg, #fff, #fff 1px, transparent 1px, transparent 40px),repeating-linear-gradient(-90deg, #fff, #fff 1px, transparent 1px, transparent 40px);
+      background-size: 40px 40px;
+      border-radius: 1000px;
+
+    }
+    .flexbox{
+      width:100%;
+     text-align:center;
+    }
+
+
+    #data {
+      font-weight: bold;
+      color: black;
+      font-size: 1.4em;
+
+      position: relative;
+      margin-top: 250px;
+      text-align: center;
+    }
+    /*.scope {
+  text-align:center;
+   margin:50px auto;
+}*/
+
+    .caption {
+      display: inline-block;
+      text-decoration: none;
+      color: black;
+      float: right;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="static/css/main.css"> -->
+
+  <script src="static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Webmic</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></a></li>
+          <li><a href="{{slide.slide_image}}"><span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span></a></li>
+          <li><a id="reload" href="#"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></a></li>
+          <li><a id="grid" href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span></a></li>
+          <li><a id="20x" href="#"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a></li>
+          <li><a id="40x" href="#"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></li>
+
+        </ul>
+
+
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>{{slide.title}}</h1>
+      <p>{{slide.text}}</p>
+
+    </div>
+      <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div> -->
+    </div>
+
+    <!-- <button type="button" class="btn btn-default btn-xs pull-left">20x</button>
+    <button type="button" class="btn btn-default btn-xs pull-left">40x</button> -->
+    
+    <div class="flexbox">
+      <button type="button" class="btn btn-default btn-xs pull-left">20x</button>
+      <button type="button" class="btn btn-default btn-xs pull-left">40x</button>
+      <div class="map pull-left">
+        <div class="marker pull-left">
+        </div>
+      </div>
+
+      <div class="bg-img pull-right">
+        <div class="grid-overlay pull-right">
+        </div>
+      </div>
+    </div>
+
+<div>
+
+
+      <!-- <footer>
+        <p>&copy; Omar Ansari 2016</p>
+      </footer> -->
+    </div>
+    <!-- /container -->
+    <script>
+      window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+    </script>
+
+    <script src="static/js/vendor/bootstrap.min.js"></script>
+
+    <script src="static/js/main.js"></script>
+    <script type="text/javascript">
+
+    $("#grid").click(function(){
+       $("div.grid-overlay").addClass("grid");
+        var clicked = $(this).data('clicked');
+        if (!clicked) {
+          $("div.grid-overlay").addClass("grid");
+        } else {
+          $("div.grid-overlay").removeClass("grid");
+        }
+        $(this).data('clicked', !clicked);
+    });
+
+
+
+
+
+
+
+    $( "#20x" ).click(function() {
+      $('div.bg-img').css({'background-size':'500px 500px'});
+      $('div.marker').css({
+        'width':'60px',
+        'height':'70px'})
+    });
+    $( "#40x" ).click(function() {
+      $('div.bg-img').css({'background-size':'1000px 1000px'});
+      $('div.marker').css({
+        'width':'40px',
+        'height':'30px'})
+    });
+
+
+
+    $('#reload').click(function() {
+    location.reload();
+    });
+
+    var img1 = $('div.marker');
+    var img2 = $('div.bg-img');
+
+    img1.draggable({
+    containment: "div.map",
+    drag: function(event, ui){
+      var x = ui.position.left;
+      var y = ui.position.top;
+      y = 3.5 * y;
+      x = 3.5 * x;
+      console.log(x);
+      console.log(y);
+      img2.css({
+          'background-position': '-'+x+'px -'+y+'px'
+        })
+    	// img2.css('backgroundPosition', ui.position.left - 15, ui.position.top);
+
+    }
+    // stop: function(event, ui){
+
+    //
+    // }
+    });
+
+
+    img2.backgroundDraggable({
+      drag: function(event, ui){
+      	img1.css('top', ui.position.top+'px');
+      }
+    });
+    </script>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.1.0/annyang.min.js"></script>
+<script>
+if (annyang) {
+  // Let's define a command.
+  var commands = {
+    'hello': function() { alert('Hello world!'); }
+  };
+
+  // Add our commands to annyang
+  annyang.addCommands(commands);
+
+  // Start listening.
+  annyang.start();
+}
+</script>
+
+</body>
+
+</html>

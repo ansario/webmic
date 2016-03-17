@@ -1,0 +1,311 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" ></script>
+  <script type="text/javascript" src="https://cdn.rawgit.com/kentor/jquery-draggable-background/master/draggable_background.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <style>
+    body {
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+    .marker{
+      /*margin-top: 100px;*/
+      background-position: 0 0;
+      position: absolute;
+      z-index: 2;
+      width: 40px;
+      height: 30px;
+      background-color: yellow;
+      opacity: 0.4;
+
+    }
+    .map {
+      position: absolute;
+      /*margin-top: 25px;*/
+      background-image: url(https://sarahmatwiejewportfolio.files.wordpress.com/2013/01/small-intestine-3.jpg);
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 200px;
+      height: 200px;
+      background-color: white;
+      float: left;
+      z-index: 1;
+    }
+
+    .bg-img {
+      background-image: url(https://sarahmatwiejewportfolio.files.wordpress.com/2013/01/small-intestine-3.jpg);
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      background-color: blue;
+      background-size: 1000px 1000px;
+      border-radius: 1000px;
+      border: 1px solid #aaa;
+      width: 250px;
+      height: 250px;
+      /*margin: 25px auto;*/
+      float: right;
+    }
+
+    #data {
+      font-weight: bold;
+      color: black;
+      font-size: 1.4em;
+      float: right;
+      position: relative;
+      margin-top: 250px;
+      text-align: center;
+    }
+    /*.scope {
+  text-align:center;
+   margin:50px auto;
+}*/
+
+    .caption {
+      display: inline-block;
+      text-decoration: none;
+      color: black;
+      float: right;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="static/css/main.css"> -->
+
+  <script src="static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Webmic</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></li>
+
+        </ul>
+
+
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Hematoxylin - Eosin</h1>
+      <p>nuclei - blue</p>
+      <p>cytoplasm: acidphilic structures - red</p>
+      <p>basophilic structures - blue</p>
+
+      <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div> -->
+    </div>
+
+    <div class="container" style="position:relative;">
+      <ul>
+      </ul>
+
+      <div class="map">
+      </div>
+      <div class="marker">
+      </div>
+
+</div>
+<div class="container" style="position:relative;">
+      <div class="bg-img">
+        <!-- <div>
+          <input type="text" id="data" / readonly>
+        </div> -->
+      </div>
+
+
+      <hr>
+
+      <!-- <footer>
+        <p>&copy; Omar Ansari 2016</p>
+      </footer> -->
+    </div>
+    <!-- /container -->
+    <script>
+      window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+    </script>
+
+    <script src="static/js/vendor/bootstrap.min.js"></script>
+
+    <script src="static/js/main.js"></script>
+    <script type="text/javascript">
+    var img1 = $('div.marker');
+    var img2 = $('div.bg-img');
+
+    img1.draggable({
+    containment: "div.map",
+    drag: function(event, ui){
+      var x = ui.position.left - 15;
+      var y = ui.position.top;
+      y = 3.5 * y;
+      x = 3.5 * x;
+      console.log(x);
+      console.log(y);
+      img2.css({
+          'background-position': '-'+x+'px -'+y+'px'
+        })
+    	// img2.css('backgroundPosition', ui.position.left - 15, ui.position.top);
+
+    }
+    // stop: function(event, ui){
+
+    //
+    // }
+    });
+
+    // img1.on( "dragstop", function( event, ui ) {
+    //   var backgroundPos = img1.css('backgroundPosition').split(" ");
+    //   img2.css('background-position', (ui.position.left - 15), ui.position.top );
+    //   console.log(ui.position.left - 15);
+    //   console.log(ui.position.top);
+    // } );
+
+    // img2.draggable({
+    // drag: function(event, ui){
+    // 	img1.css('top', ui.position.top+'px');
+    // }
+    // });
+    // img2.backgroundDraggable();
+    img2.backgroundDraggable({
+      drag: function(event, ui){
+      	img1.css('top', ui.position.top+'px');
+      }
+    });
+    </script>
+    <!-- <script type="text/javascript">
+      $(document).ready(function() {
+        var $bg = $('.bg-img'),
+          data = $('#data')[0],
+          elbounds = {
+            w: parseInt($bg.width()),
+            h: parseInt($bg.height())
+          },
+          bounds = {
+            w: 2350 - elbounds.w,
+            h: 1750 - elbounds.h
+          },
+          origin = {
+            x: 0,
+            y: 0
+          },
+          start = {
+            x: 0,
+            y: 0
+          },
+          movecontinue = false;
+
+        function move(e) {
+          var inbounds = {
+              x: false,
+              y: false
+            },
+            offset = {
+              x: start.x - (origin.x - e.clientX),
+              y: start.y - (origin.y - e.clientY)
+            };
+
+          // data.value = 'X: ' + offset.x + ', Y: ' + offset.y;
+
+          inbounds.x = offset.x < 0 && (offset.x * -1) < bounds.w;
+          inbounds.y = offset.y < 0 && (offset.y * -1) < bounds.h;
+
+          if (movecontinue && inbounds.x && inbounds.y) {
+            start.x = offset.x;
+            start.y = offset.y;
+
+            // $(this).css('background-position', start.x + 'px ' + start.y + 'px');
+            $(this).css('background-position', start.x + 'px ' + start.y + 'px');
+
+          }
+
+          origin.x = e.clientX;
+          origin.y = e.clientY;
+
+          e.stopPropagation();
+          return false;
+        }
+
+        function handle(e) {
+          movecontinue = false;
+          $bg.unbind('mousemove', move);
+
+          if (e.type == 'mousedown') {
+            origin.x = e.clientX;
+            origin.y = e.clientY;
+            movecontinue = true;
+            $bg.bind('mousemove', move);
+          } else {
+            $(document.body).focus();
+          }
+
+          e.stopPropagation();
+          return false;
+        }
+
+        function reset() {
+          start = {
+            x: 0,
+            y: 0
+          };
+          $(this).css('backgroundPosition', '0 0');
+        }
+
+        $bg.bind('mousedown mouseup mouseleave', handle);
+        $bg.bind('dblclick', reset);
+      });
+    </script> -->
+
+
+</body>
+
+</html>
