@@ -20,3 +20,18 @@ class Slide(models.Model):
 
     def __str__(self):
         return self.title
+
+class Marker(models.Model):
+    slide = models.ForeignKey(Slide)
+    x = models.IntegerField()
+    y = models.IntegerField()
+    radius = models.IntegerField()
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return self.text

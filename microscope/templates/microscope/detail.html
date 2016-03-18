@@ -1,290 +1,280 @@
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang="">
-<!--<![endif]-->
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-  <link rel="stylesheet" href="static/css/bootstrap.min.css">
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" ></script>
-  <script type="text/javascript" src="https://cdn.rawgit.com/kentor/jquery-draggable-background/master/draggable_background.js"></script>
-
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <style>
-    body {
-      padding-top: 50px;
-      padding-bottom: 20px;
-    }
-    .marker{
-      /*margin-top: 100px;*/
-      background-position: 0 0;
-      /*position: absolute;*/
-      z-index: 2;
-      width: 150px;
-      height: 150px;
-      background-color: yellow;
-      opacity: 0.4;
-      border-radius: 100px;
-
-    }
-    .map {
-      /*position: absolute;*/
-      /*margin-top: 25px;*/
-      background-image: url({{slide.slide_image}});
-      background-size: cover;
-      background-repeat: no-repeat;
-      width: 200px;
-      height: 200px;
-      background-color: white;
-      z-index: 1;
-      margin: 10px;
-    }
-
-    .bg-img {
-      /*position:absolute;*/
-      z-index: 1;
-      background-image: url({{slide.slide_image}});
-      background-position: 0 0;
-      background-repeat: no-repeat;
-      background-color: white;
-      background-size: 250px 250px;
-      border-radius: 1000px;
-      border: 1px solid #aaa;
-      width: 250px;
-      height: 250px;
-      margin: 10px;
-
-      /*margin: 25px auto;*/
-
-    }
-    .grid {
-      /*position: absolute;*/
-      width: 250px;
-      height: 250px;
-      z-index: 2;
-      background-color: transparent;
-      background-image:repeating-linear-gradient(0deg, #fff, #fff 1px, transparent 1px, transparent 40px),repeating-linear-gradient(-90deg, #fff, #fff 1px, transparent 1px, transparent 40px);
-      background-size: 40px 40px;
-      border-radius: 1000px;
-
-    }
-    .flexbox{
-      width:100%;
-     text-align:center;
-    }
+{% extends "microscope/base.html" %}
+{% load staticfiles %}
+{% load shuffle %}
+{% block content %}
 
 
-    #data {
-      font-weight: bold;
-      color: black;
-      font-size: 1.4em;
-
-      position: relative;
-      margin-top: 250px;
-      text-align: center;
-    }
-    /*.scope {
-  text-align:center;
-   margin:50px auto;
-}*/
-
-    .caption {
-      display: inline-block;
-      text-decoration: none;
-      color: black;
-      float: right;
-    }
-  </style>
-  <!-- <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="static/css/main.css"> -->
-
-  <script src="static/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-</head>
-
-<body>
-
-  <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Webmic</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></a></li>
-          <li><a href="{{slide.slide_image}}"><span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span></a></li>
-          <li><a id="reload" href="#"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></a></li>
-          <li><a id="grid" href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span></a></li>
-          <li><a id="20x" href="#"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></a></li>
-          <li><a id="40x" href="#"><span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></li>
-
-        </ul>
+    {#    <div class="jumbotron">#}
+    {#        <h1>Hello, world!</h1>#}
+    {#        <p>...</p>#}
+    {#        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>#}
+    {#    </div>#}
 
 
-      </div>
-      <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-  </nav>
 
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron">
-    <div class="container">
-      <h1>{{slide.title}}</h1>
-      <p>{{slide.text}}</p>
+    {#   <div style="width: 200px; margin: 0 auto">#}
+    {#    {% url %}#}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">Slide Information</div>
 
-    </div>
-      <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-      </div> -->
-    </div>
+                <div class="panel-body">
+                    <h4>Name: <span>{{ slide.title }}</span></h4>
+                </div>
+            </div>
+            <div id='outer'>
+                <div class='box' id='first'>
+                    <div class="magnifier-thumb-wrapper demo">
 
-    <!-- <button type="button" class="btn btn-default btn-xs pull-left">20x</button>
-    <button type="button" class="btn btn-default btn-xs pull-left">40x</button> -->
-    
-    <div class="flexbox">
-      <button type="button" class="btn btn-default btn-xs pull-left">20x</button>
-      <button type="button" class="btn btn-default btn-xs pull-left">40x</button>
-      <div class="map pull-left">
-        <div class="marker pull-left">
+                        <img id="thumb" src="http://www.pottslab.org/images/Testes_Histologyb.jpg"
+                             data-mode="inside" data-zoomable="true">
+
+
+                    </div>
+
+                </div>
+                {% if markers or quiz_markers %}
+                    <div class='box' id='second'>
+                        <canvas width="501px" height="501px" id="myCanvas">
+                        </canvas>
+                    </div>
+                {% endif %}
+
+            </div>
+
+
         </div>
-      </div>
+        {#        <div class="col-md-4">.col-md-4</div>#}
+        <div class="col-md-6">
+            {% if correct %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">Configuration</div>
 
-      <div class="bg-img pull-right">
-        <div class="grid-overlay pull-right">
-        </div>
-      </div>
+                    <div class="panel-body">
+                        <a href="/slide/{{ slide.pk }}" type="button" class="btn btn-danger btn-lg">Close Results</a>
+                        <a type="button" href="" class="btn btn-primary btn-lg disabled">Enable Magnification</a>
+                        <a type="button" href="" class="btn btn-primary btn-lg disabled">Enable Labels</a>
+                    </div>
+
+                </div>
+                <div class="text-center">
+                <h1>Results:</h1>
+                <svg id="fillgauge1" width="97%" height="250"></svg>
+                </div>
+
+
+
+            {% elif not markers and not quiz_markers %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">Configuration</div>
+
+                    <div class="panel-body">
+                        <a type="button" href="?magnification=on" class="btn btn-primary btn-lg">Enable
+                            Magnification</a>
+                        <a type="button" href="/slide/{{ slide.pk }}/?labels=on" class="btn btn-primary btn-lg">Enable
+                            Labels</a>
+                        <a type="button" href="?quiz=yes" class="btn btn-primary btn-lg">Quiz</a>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Microsope Objective Lens</div>
+
+                    <div class="panel-body">
+                        <a type="button" href="?magnification&?40x" class="btn btn-primary btn-lg">40x</a>
+                        <a type="button" href="?magnification=on" class="btn btn-primary btn-lg">20x</a>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Microsope Eyepiece Lens</div>
+
+                    <div class="panel-body">
+                        <a type="button" href="?magnification=on" class="btn btn-primary btn-lg">5x</a>
+                        <a type="button" href="?magnification=on" class="btn btn-primary btn-lg">10x</a>
+                    </div>
+                </div>
+
+            {% elif quiz_markers and not markers %}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Configuration</div>
+
+                    <div class="panel-body">
+                        <a href="/slide/{{ slide.pk }}" type="button" class="btn btn-danger btn-lg">Close Quiz</a>
+                        <a type="button" href="" class="btn btn-primary btn-lg disabled">Enable Magnification</a>
+                        <a type="button" href="" class="btn btn-primary btn-lg disabled">Enable Labels</a>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="panel-title">Quiz</div>
+
+                    </div>
+
+                    <div class="panel-body">
+
+
+                        <form id="quizform" name="form" method="post" action="." class="form-horizontal" role="form">
+
+                            {% for marker in quiz_markers %}
+
+                                <div style="margin-bottom: 25px" class="input-group">
+                                    {#                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>#}
+                                    <p class="radio-inline">{{ forloop.counter }}:</p>
+                                    {% for marker in quiz_markers|shuffle %}
+
+                                        <label class="radio-inline"><input type="radio"
+                                                                           name="q{{ forloop.parentloop.counter }}"
+                                                                           value="{{ marker }}">
+                                            {{ marker }}</label>
+
+                                    {% endfor %}
+                                </div>
+
+                            {% endfor %}
+
+                            <div style="margin-top:10px" class="form-group">
+                                <!-- Button -->
+
+                                <div class="col-sm-12 controls">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success" value="Submit">Submit</button>
+                                    {#                                    <a id="btn-login" href="#" class="btn btn-success">Submit</a>#}
+
+
+                                </div>
+                            </div>
+                            <input type="hidden" name="options" value={{ quiz_markers }}>
+                            <input type="hidden" name="pkstring" value={{ order }}>
+
+                        </form>
+
+
+                    </div>
+                </div>
+                </div>
+
+
+                {% else %}
+
+
+                {#            {% endif %}#}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Configuration</div>
+
+                    <div class="panel-body">
+                        <a href="/slide/{{ slide.pk }}" type="button" class="btn btn-danger btn-lg">Disable Labels</a>
+                        <a type="button" href="" class="btn btn-primary btn-lg disabled">Enable Magnification</a>
+                        <a type="button" href="" class="btn btn-primary btn-lg disabled">Quiz</a>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for marker in markers %}
+
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ marker }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            {% endif %}
+
+    </div>
     </div>
 
-<div>
 
 
-      <!-- <footer>
-        <p>&copy; Omar Ansari 2016</p>
-      </footer> -->
-    </div>
-    <!-- /container -->
-    <script>
-      window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
-    </script>
+    {{ correct }}
 
-    <script src="static/js/vendor/bootstrap.min.js"></script>
+    {% for marker in markers %}
 
-    <script src="static/js/main.js"></script>
-    <script type="text/javascript">
-
-    $("#grid").click(function(){
-       $("div.grid-overlay").addClass("grid");
-        var clicked = $(this).data('clicked');
-        if (!clicked) {
-          $("div.grid-overlay").addClass("grid");
-        } else {
-          $("div.grid-overlay").removeClass("grid");
-        }
-        $(this).data('clicked', !clicked);
-    });
+        <script>
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            {#        ctx.fillText("1",{{ marker.x|add:"-2"}}, {{ marker.y|add:"3"}});#}
+            ctx.textAlign = "start";
+            ctx.font = "12px Arial";
+            ctx.strokeStyle = "#000";
+            ctx.strokeText({{ forloop.counter }}, {{ marker.x|add:"-2"}}, {{ marker.y|add:"3"}});
 
 
+            ctx.beginPath();
+            ctx.arc({{ marker.x }}, {{ marker.y }}, {{ marker.radius }}, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fillStyle = "rgba(255,250,205,0.5)";
+            ctx.fill();
+        </script>
+
+    {% endfor %}
+
+    {% for marker in quiz_markers %}
+
+        <script>
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            {#        ctx.fillText("1",{{ marker.x|add:"-2"}}, {{ marker.y|add:"3"}});#}
+            ctx.textAlign = "start";
+            ctx.font = "12px Arial";
+            ctx.strokeStyle = "#000";
+            ctx.strokeText({{ forloop.counter }}, {{ marker.x|add:"-2"}}, {{ marker.y|add:"3"}});
 
 
+            ctx.beginPath();
+            ctx.arc({{ marker.x }}, {{ marker.y }}, {{ marker.radius }}, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fillStyle = "rgba(255,250,205,0.5)";
+            ctx.fill();
+        </script>
 
+    {% endfor %}
+    <script type="text/javascript" src="{% static "js/Event.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/Magnifier.js" %}"></script>
+    <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+    <script src="{% static "js/liquidFillGuage.js" %}" language="JavaScript"></script>
 
+    {% if mag %}
 
-    $( "#20x" ).click(function() {
-      $('div.bg-img').css({'background-size':'500px 500px'});
-      $('div.marker').css({
-        'width':'60px',
-        'height':'70px'})
-    });
-    $( "#40x" ).click(function() {
-      $('div.bg-img').css({'background-size':'1000px 1000px'});
-      $('div.marker').css({
-        'width':'40px',
-        'height':'30px'})
-    });
+        <script>
+            var evt = new Event(),
+                    m = new Magnifier(evt);
+            m.attach({
+                thumb: '#thumb',
+                large: 'http://www.pottslab.org/images/Testes_Histologyb.jpg',
+                mode: 'inside',
+                zoom: 10,
+                zoomable: true
+            });
+        </script>
 
+    {% endif %}
 
+    {% if correct %}
+        <script>
+        var gauge1 = loadLiquidFillGauge("fillgauge1", {{ correct }} / 3 * 100);
+        var config1 = liquidFillGaugeDefaultSettings();
+        config1.circleColor = "#FF7777";
+        config1.textColor = "#FF4444";
+        config1.waveTextColor = "#FFAAAA";
+        config1.waveColor = "#FFDDDD";
+        config1.circleThickness = 0.2;
+        config1.textVertPosition = 0.2;
+        config1.waveAnimateTime = 1000;
+        </script>
+    {% endif %}
 
-    $('#reload').click(function() {
-    location.reload();
-    });
-
-    var img1 = $('div.marker');
-    var img2 = $('div.bg-img');
-
-    img1.draggable({
-    containment: "div.map",
-    drag: function(event, ui){
-      var x = ui.position.left;
-      var y = ui.position.top;
-      y = 3.5 * y;
-      x = 3.5 * x;
-      console.log(x);
-      console.log(y);
-      img2.css({
-          'background-position': '-'+x+'px -'+y+'px'
-        })
-    	// img2.css('backgroundPosition', ui.position.left - 15, ui.position.top);
-
-    }
-    // stop: function(event, ui){
-
-    //
-    // }
-    });
-
-
-    img2.backgroundDraggable({
-      drag: function(event, ui){
-      	img1.css('top', ui.position.top+'px');
-      }
-    });
-    </script>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.1.0/annyang.min.js"></script>
-<script>
-if (annyang) {
-  // Let's define a command.
-  var commands = {
-    'hello': function() { alert('Hello world!'); }
-  };
-
-  // Add our commands to annyang
-  annyang.addCommands(commands);
-
-  // Start listening.
-  annyang.start();
-}
-</script>
-
-</body>
-
-</html>
+    {#    </div>#}
+{% endblock content %}
